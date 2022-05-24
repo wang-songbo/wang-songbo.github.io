@@ -1,0 +1,17 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; 
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Georgia','Times',serif;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+a, li {
+    overflow-wrap: break-word;
+}
+
+footer p {
+    font-style: italic;
+}
