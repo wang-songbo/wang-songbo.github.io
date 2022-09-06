@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<title>How to configure NFSv4</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../index.css">
+	<meta http-equiv="x-ipfs-path" content="/ipns/wangsongbo.online/notes/nfsv4.html">
+</head>
+
+<body>
+	<header>
+		<h1>How to configure NFSv4</h1>
+	</header>
+	<main>
+		<p>One of the advantages of NFSv4 is that the server side needs only to listen to one internet port, but many Linux distributions do not ship NFSv4-only service scripts as default, thus a number of ports are listened, leading to security risks.</p>
+		<p>Take the OpenRC <a href="https://git.alpinelinux.org/aports/commit/?id=03e0bf5ad34d2afb9e4db24a72a0b10119afec8e" lang="en">service scripts</a> from Alpine Linux as example.</p>
+		<p>Modify the variables in <tt>/etc/conf.d/nfs</tt> as follows:</p>
+		<pre>
+NFS_NEEDED_SERVICES="!rpc.statd !portmap"
+OPTS_RPC_NFSD="-H <em>ip</em> -N 3"
+OPTS_RPC_MOUNTD="-N 2 -N 3"
+</pre>
+		<p>where <tt><em>ip</em></tt> is the IP address of the network interface to listen to.</p>
+		<p>After modifying start the NFS service: <tt>rc-service nfs start</tt>, and check the listened ports: <tt>netstat -putnl</tt>。</p>
+	</main>
+	<hr>
+	<footer>
+		<p>Last update on 2022-09-06.</p>
+	</footer>
+</body>
+
+</html>
