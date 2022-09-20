@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+	<title>我用過的HTTP服務器</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../index.css">
+</head>
+
+<body>
+	<header>
+		<h1>我用過的HTTP服務器</h1>
+	</header>
+	<main>
+		<p>自從我學會「自建」以來，我依順序用過下面的HTTP服務器：</p>
+		<ol>
+			<li><a href="https://nginx.org" lang="en">Nginx</a></li>
+			<li><a href="https://man.openbsd.org/httpd.8" lang="en">OpenBSD httpd</a></li>
+			<li><a href="https://busybox.net/downloads/BusyBox.html#httpd" lang="en">Busybox httpd</a></li>
+			<li><a href="https://www.acme.com/software/micro_httpd/" lang="en">micro_httpd</a></li>
+			<li><a href="https://cr.yp.to/publicfile/httpd.html" lang="en">publicfile httpd</a></li>
+		</ol>
+		<p>
+			一開始就用Nginx是聽從了搜索引擎的建議，覺得只「服務」靜態內容，它會比Apache httpd快一些。很顯然，我是多慮了。
+			因爲我的個人網站流量從來沒有大到需要考慮性能的地步。不過後來發現了Nginx可以當反向代理用，也是物盡其用了。
+			再後來就走向了極簡主義的不歸路——先是從Linux換到了OpenBSD，自然而然的用上了系統自帶的httpd。
+			我的需求並不多，cgi都不需要，所以並不覺得它的功能少。
+			而且，學習配置OpenBSD httpd的過程中，我也感覺到了，爲什麼Linux是內核加上用戶空間（不管是不是GNU），
+			而*BSD則是一個完整的系統。
+			httpd(8)、acme-client(1)和oscpcheck(8)三者互相配合的體驗，是我在Linux系統中從沒體驗過的。
+			我也很喜歡OpenBSD的「網絡棧」，比如說pf(4)防火牆和rdomain(4)路由域。
+			對我來說，使用它們的體驗比使用Linux的對應物（nftables或者iptables和網絡命名空間）要好。
+		</p>
+		<p>
+			再後來我在極簡的路上走的更遠了（至少在用戶空間裏是這樣）。
+			我的新電腦運行着Artix Linux，並使用s6和s6-rc作爲init（或許可以翻譯成「初始化系統」）。
+			於是便學習了s6系的工具鏈（特別是execline和s6-networking），重新發現了超級服務器（superserver）這個網絡服務的運行方式。
+			之所以說是重新發現，是因爲在瀏覽Openbsd的manpage時我注意到了inetd(8)，但是搜索引擎告訴我，這是一個過時、效率低下的方式，我就置之不顧了。
+			但是運行一個服務器，除了性能之外，也需要考慮配置本身的複雜度——
+			超級服務器的方式讓服務端程序無需使用網絡相關的代碼，只需要對文件描述符（file descriptor）0、1進行操作（如果需要輸出日誌，還會用到2）。
+			所有網絡相關的部分都由超級服務器自身完成。
+			考慮到在傳統UNIX安全模型中，bind低端口（&lt;1024）需要root權限，超級服務器模式降低了運行在特權層級的代碼數量。
+		</p>
+		<p>
+			於是我開始尋找支持inetd模式的極簡httpd。
+			一開始用的是s6的作者Laurent Bercot也使用的Busybox httpd。
+			後來覺得這還是過於複雜，所以換成了僅有不到200行C代碼的acme micro_httpd。
+			現在則是換成了大名鼎鼎的djb的publicfile httpd。
+			值得一提的是，他編寫的daemontools進程監視器（process supervisor）啓發了許多後來的程序員，創造出了runit、perp、s6等一系進程監視器。
+		</p>
+		<p>
+			publicfile httpd一啓動就chroot到HTTP文件目錄，並失去root特權。
+			這一點其實不用程序本身支持，使用(s6-)chroot、(s6-)envuidgid、(s6-)applyuidgid等一系列鏈加載器（chainloader）也可以實現。
+			（只不過需要在chroot目錄裏準備相應的可執行文件和可能的庫文件。）
+			而且，還可以用unshare(1)實現Linux特有的命名空間隔離，以達到可以和常見的容器化方案（docker、podman）媲美的安全性。
+		</p>
+	</main>
+	</main>
+	<hr>
+	<footer>
+		<p>最後更新於2022-09-20。</p>
+	</footer>
+</body>
+
+</html>
