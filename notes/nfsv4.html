@@ -2,32 +2,32 @@
 <html lang="zh-Hant">
 
 <head>
-	<title>如何設置NFSv4</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="../index.css">
+<title>如何設置NFSv4</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../index.css">
 </head>
 
 <body>
-	<header>
-		<h1>如何設置NFSv4</h1>
-	</header>
-	<main>
-		<p>NFSv4的優點之一是服務端僅需要監聽一個網絡端口，但許多Linux發行版自帶的服務腳本並不默認僅使用NFSv4，因而會監聽許多端口，留下安全隱患。</p>
-		<p>下以Alpine Linux的OpenRC<a href="https://git.alpinelinux.org/aports/commit/?id=03e0bf5ad34d2afb9e4db24a72a0b10119afec8e" lang="en">服務腳本</a>爲例。</p>
-		<p>修改<tt>/etc/conf.d/nfs</tt>的變量如下：</p>
-		<pre>
+<header>
+<h1>如何設置NFSv4</h1>
+</header>
+<main>
+<p>NFSv4的優點之一是服務端僅需要監聽一個網絡端口，但許多Linux發行版自帶的服務腳本並不默認僅使用NFSv4，因而會監聽許多端口，留下安全隱患。</p>
+<p>下以Alpine Linux的OpenRC<a href="https://git.alpinelinux.org/aports/commit/?id=03e0bf5ad34d2afb9e4db24a72a0b10119afec8e" lang="en">服務腳本</a>爲例。</p>
+<p>修改<tt>/etc/conf.d/nfs</tt>的變量如下：</p>
+<pre>
 NFS_NEEDED_SERVICES="!rpc.statd !portmap"
 OPTS_RPC_NFSD="-H <em>ip</em> -N 3"
 OPTS_RPC_MOUNTD="-N 2 -N 3"
 </pre>
-		<p>其中<tt><em>ip</em></tt>是要監聽的網絡接口的IP地址。</p>
-		<p>修改後啓動NFS服務：<tt>rc-service nfs start</tt>，並檢查監聽的網絡端口：<tt>netstat -putnl</tt>。</p>
-	</main>
-	<hr>
-	<footer>
-		<p>最後更新於2022-09-06。</p>
-	</footer>
+<p>其中<tt><em>ip</em></tt>是要監聽的網絡接口的IP地址。</p>
+<p>修改後啓動NFS服務：<tt>rc-service nfs start</tt>，並檢查監聽的網絡端口：<tt>netstat -putnl</tt>。</p>
+</main>
+<hr>
+<footer>
+<p>最後更新於2022-09-06。</p>
+</footer>
 </body>
 
 </html>
