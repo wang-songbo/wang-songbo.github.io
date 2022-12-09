@@ -1,0 +1,24 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+This is a list of other cryptographic keys I possess:
+
+# signify
+# Retrievable from
+# https://wsb.onl/signify.txt
+untrusted comment: Songbo Wang public key
+RWTz+LI/Ci/haTdxs9jtcExRYjX0vXDtJtVYGrPS5HSjoPSUbGwaMOXj
+
+# ssh
+# Retrievable from
+# https://github.com/wang-songbo.keys
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC61SsvZyBpZmEEDbpTNu+SiuW1wEge/zqH68AsRyOA4
+-----BEGIN PGP SIGNATURE-----
+
+iMUEARMKAC0WIQRmCuGeeejFOzyeMo+qO5da/2tDFAUCY5NM4g8cc29uZ2JvQHdz
+Yi5vbmwACgkQqjuXWv9rQxTvbAH+LX4wvOsJdAfPt1HDqPy3ASjwJMbXNPQE1dHH
+b+nagLo1h7TviU3AXS2tDC067RfAEFuk9J8gKRycKfqKFF53+wH+LylApPVCm36i
+YTErFtA1mv+mRx/JDpZr8hh8rKSrT0R6TjQnZGfMJ0dzGQ7nJ+H7fu6GUoTH8SD1
+QJdbWiETbA==
+=PE8O
+-----END PGP SIGNATURE-----
